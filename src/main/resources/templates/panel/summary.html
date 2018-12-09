@@ -1,0 +1,62 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="summary-none" class="panel border rounded">
+    <div class="col-md-12">
+        <h3 class="text-center mt-4">サマリー</h3>
+    </div>
+    <div class="text-center m-5">
+        <small>予算または実績が登録されるとサマリーが表示されます</small>
+    </div>
+</div>
+
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="summary" class="panel border rounded pr-2 pl-2">
+    <div class="row mt-2">
+        <div class="mx-auto">
+            <table>
+                <tr>
+                    <td class="text-center"><small>予算合計</small></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"><small>実績合計</small></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"><small>残額</small></td>
+                </tr>
+                <tr>
+                    <td class="text-center">
+                        <div class="h4 border rounded p-3">
+                            [[ ${#numbers.formatInteger(budgetChart.sum(), 3, 'COMMA')} ]] 円
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span class="h5">　-　</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="h4 border rounded p-3">
+                            [[ ${#numbers.formatInteger(expenseChart.sum(), 3, 'COMMA')} ]] 円
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span class="h5">　=　</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="h4 border rounded p-3"
+                             th:classappend="${(budgetChart.sum()-expenseChart.sum())<0?'text-danger':''}">
+                            [[ ${#numbers.formatInteger(budgetChart.sum() - expenseChart.sum(), 3, 'COMMA')} ]] 円
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-6 mt-3">
+            <h4 class="text-center">
+                予算内訳
+            </h4>
+            <div th:replace="panel/chart.html::budget-chart"></div>
+        </div>
+        <div class="col-lg-6 mt-3">
+            <h4 class="text-center">
+                実績内訳
+            </h4>
+            <div th:replace="panel/chart.html::expense-chart"></div>
+        </div>
+    </div>
+</div>

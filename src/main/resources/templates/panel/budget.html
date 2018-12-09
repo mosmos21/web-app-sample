@@ -1,0 +1,34 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="budget-none" class="panel border rounded">
+    <div class="col-md-12">
+        <h3 class="text-center mt-4">予算</h3>
+    </div>
+    <div class="text-center m-5">
+        <small>予算が登録されていません</small>
+        <br/>
+        <a th:href="@{/budget/new(year=${year}, month=${month})}">
+            <button class="btn btn-outline-secondary">予算を登録する</button>
+        </a>
+    </div>
+</div>
+
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="budget" class="panel border rounded">
+    <div class="col-md-12">
+        <h3 class="text-center mt-4">予算</h3>
+    </div>
+    <div class="m-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <td>カテゴリ</td>
+                <td>金額</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="budget : ${budgetList}" th:object="${budget}">
+                <td th:text="*{name}"></td>
+                <td th:text="${#numbers.formatInteger(budget.price, 3, 'COMMA')} + '円'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

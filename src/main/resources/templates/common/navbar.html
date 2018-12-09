@@ -1,0 +1,23 @@
+<nav class="navbar fixed-top navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org" th:fragment="navbar">
+    <a href="/" class="navbar-brand">Web App Sample</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/budget/new}">予算登録</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/expense/new}">実績登録</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/expense}">実績一覧</a>
+            </li>
+        </ul>
+    </div>
+</nav>

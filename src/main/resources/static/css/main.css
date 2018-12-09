@@ -1,0 +1,40 @@
+body {
+    padding-top: 70px;
+    background-image: url("../images/background.png");
+    font-family: Lato, "Noto Sans JP", "游ゴシック Medium", "游ゴシック体", "Yu Gothic Medium", YuGothic, "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+#login-form, #sign-up-form {
+    width: 400px;
+    background-color: white;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.panel {
+    min-height: 350px;
+    background-color: white;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.panel-link-right, .panel-link-left {
+    position: absolute;
+    top: -2px;
+}
+
+.panel-link-left {
+    left: 20px;
+}
+
+.panel-link-right {
+    right: 20px;
+}
+
+.form-background {
+    background-color: white;
+    box-shadow: 0 0 40px white;
+}
+
+.table-background {
+    background-color: white;
+    box-shadow: 2px 2px 4px gray;
+}

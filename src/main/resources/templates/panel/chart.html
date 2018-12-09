@@ -1,0 +1,41 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="budget-chart">
+    <div class="m-2">
+        <canvas id="budget-chart"></canvas>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        new Chart($('#budget-chart'), {
+            type: 'doughnut',
+            data: {
+                labels: /*[[ ${budgetChart.labelList} ]]*/ [],
+                datasets: [{
+                    backgroundColor: /*[[ ${budgetChart.backgroundColorList} ]]*/ [],
+                    hoverBackgroundColor: /*[[ ${budgetChart.hoverBackgroundColorList} ]]*/ [],
+                    data: /*[[ ${budgetChart.dataList} ]]*/ []
+                }]
+            }
+        });
+        /*]]>*/
+    </script>
+</div>
+
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="expense-chart">
+    <div class="m-2">
+        <canvas id="expense-chart"></canvas>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        new Chart($('#expense-chart'), {
+            type: 'doughnut',
+            data: {
+                labels: /*[[ ${expenseChart.labelList} ]]*/ [],
+                datasets: [{
+                    backgroundColor: /*[[ ${expenseChart.backgroundColorList} ]]*/ [],
+                    hoverBackgroundColor: /*[[ ${expenseChart.hoverBackgroundColorList} ]]*/ [],
+                    data: /*[[ ${expenseChart.dataList} ]]*/ []
+                }]
+            }
+        });
+        /*]]>*/
+    </script>
+</div>

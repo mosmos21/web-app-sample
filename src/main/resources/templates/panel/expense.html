@@ -1,0 +1,50 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="expense-none" class="panel border rounded">
+    <div class="col-md-12">
+        <h3 class="text-center mt-4">実績</h3>
+    </div>
+    <div class="text-center m-5">
+        <small>実績が登録されていません</small>
+        <br/>
+        <a th:href="@{/expense/new(year=${year}, month=${month})}">
+            <button class="btn btn-outline-secondary">実績を登録する</button>
+        </a>
+    </div>
+</div>
+
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="expense" class="panel border rounded">
+    <div class="col-md-12">
+        <h3 class="text-center mt-4">
+            <a th:href="@{/expense/new(year=${year}, month=${month})}" class="panel-link-left">
+                <button class="btn btn-sm btn-primary rounded-circle">+</button>
+            </a>
+            実績
+            <a th:href="@{/expense}" class="panel-link-right">
+                <button class="btn btn-sm btn-outline-secondary">もっと見る</button>
+            </a>
+        </h3>
+    </div>
+    <div class="m-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <td>日付</td>
+                <td>カテゴリ</td>
+                <td>金額</td>
+            </tr>
+            </thead>
+            <tr th:each="expense : ${expenseList}">
+                <td>
+                    <a th:href="@{/expense(
+                        startDate=${#dates.format(expense.date, 'yyyy-MM-dd')},
+                        endDate=${#dates.format(expense.date, 'yyyy-MM-dd')})}">
+                        [[ ${#dates.format(expense.date, 'MM月dd日')} ]]
+                    </a>
+                </td>
+                <td th:text="${expense.categoryName}"></td>
+                <td th:text="${#numbers.formatInteger(expense.price, 3, 'COMMA')} + '円'"></td>
+            </tr>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

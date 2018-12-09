@@ -1,0 +1,138 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header.html::header"/>
+<body>
+<div th:replace="common/navbar.html::navbar"></div>
+<div style="display: none;">
+    <div id="expense-form-row" class="expense-form-row form-inline mt-2">
+        <div class="col-md-6 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">カテゴリ</span>
+            </div>
+            <select id="expense-category" class="custom-select">
+                <option th:each="category : ${categoryList}"
+                        th:text="${category.name}"
+                        th:value="${category.id}"
+                ></option>
+            </select>
+        </div>
+        <div class="col-md-6 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">金額</span>
+            </div>
+            <input type="number" id="expense-price" class="form-control">
+        </div>
+    </div>
+</div>
+<div class="container form-background mt-5">
+    <div class="row">
+        <h1 class=" m-4 text-center mx-auto">実績登録</h1>
+    </div>
+    <form th:action="@{/expense/new}" method="post" class="pb-5 form mx-auto" style="max-width: 600px;">
+        <h4 class="mb-3">
+            <span>登録年月日</span>
+        </h4>
+        <div class="form-inline">
+            <div class="col-md-4 input-group">
+                <input type="number" id="expense-year" name="year" class="form-control" th:value="${param.year}" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">年</span>
+                </div>
+            </div>
+            <div class="col-md-4 input-group">
+                <select name="month" class="custom-select" id="expense-month" required>
+                    <script type="text/javascript" th:inline="javascript">
+                        /*<![CDATA[*/
+                        for (month = 1; month <= 12; month++) {
+                            var val = `<option value="${month}">${month}</option>`;
+                            $('#expense-month').append(val)
+                        }
+                        var paramMonth = /*[[${param.month}]]*/ '';
+                        $('#expense-month').val(paramMonth);
+                        /*]]>*/
+                    </script>
+                </select>
+                <div class="input-group-append">
+                    <span class="input-group-text">月</span>
+                </div>
+            </div>
+            <div class="col-md-4 input-group">
+                <select name="day" class="custom-select" id="expense-day" required>
+                    <script type="text/javascript" th:inline="javascript">
+                        /*<![CDATA[*/
+                        var selectedDay = $('#expense-day').val()
+                        var isLeapYear = function (year) {
+                            if (year < 4) return false;
+                            return year % 400 == 0 || (year % 100 != 0 && year % 4 == 0);
+                        }
+                        var setDay = function (year, month) {
+                            $('#expense-day').empty();
+                            if(year < 0) return;
+                            var dayEnd = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                            dayEnd[2] += isLeapYear(year) ? 1 : 0;
+                            for (day = 1; day <= dayEnd[month]; day++) {
+                                var val = `<option value="${day}">${day}</option>`;
+                                $('#expense-day').append(val);
+                            }
+                            if(dayEnd[month] < selectedDay) selectedDay = '';
+                            $('#expense-day').val(selectedDay);
+                        }
+                        var updateDay = function () {
+                            var selectedYear =  $('#expense-year').val();
+                            var selectedMonth = $('#expense-month').val();
+                            if(selectedYear !== '' && selectedMonth !== '') {
+                                setDay(selectedYear, selectedMonth);
+                            } else {
+                                $('#expense-day').empty();
+                            }
+                        }
+                        $('#expense-year').on('change', updateDay);
+                        $('#expense-month').on('change', updateDay);
+                        updateDay()
+                        /*]]>*/
+                    </script>
+                </select>
+                <div class="input-group-append">
+                    <span class="input-group-text">日</span>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-3 mb-3">
+            <span>実績詳細</span>
+        </h4>
+        <div id="expense-detail">
+        </div>
+        <div class="form-group mt-2 mb-2">
+            <div class="col-md-2 text-center mx-auto">
+                <input type="button" id="add-expense-row-button" class="mx-auto btn btn-outline-secondary rounded-circle" value="+">
+            </div>
+        </div>
+        <script type="text/javascript" th:inline="javascript">
+            /*<![CDATA[*/
+            var addRow = function () {
+                var index = $('.expense-form-row').length;
+                var row = $('#expense-form-row').clone(true);
+                console.log(row);
+                row.attr('id', 'expense-form-row' + index);
+
+                var category = row.find('#expense-category');
+                category.attr('id', 'expense-category' + index);
+                category.attr('name', 'expenseFormRowList[' + (index - 1) + '].categoryId');
+
+                var price = row.find('#expense-price');
+                price.attr('id', 'expense-price' + index);
+                price.attr('name', 'expenseFormRowList[' + (index - 1) + '].price');
+
+                $('#expense-detail').append(row);
+            }
+            $('#add-expense-row-button').on('click', addRow);
+            addRow();
+            /*]]>*/
+        </script>
+        <div class="input-group mt-4">
+            <button class="btn btn-primary btn-block" type="submit">登録</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

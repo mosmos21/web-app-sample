@@ -1,0 +1,79 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header.html::header"/>
+<body>
+<div th:replace="common/navbar.html::navbar"></div>
+<div class="container">
+    <div class="row mt-5">
+        <h1 class="text-center mx-auto">実績一覧</h1>
+    </div>
+
+    <div class="row mt-5">
+        <form action="/expense" method="get" class="form mx-auto">
+            <div class="form-inline">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">開始日</span>
+                    </div>
+                    <input type="date" id="search-start-date" class="form-control" name="startDate"
+                           aria-describedby="inputGroup-sizing-sm" th:value="${param.startDate}">
+                </div>
+
+                <div class="input-group input-group-sm ml-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">終了日</span>
+                    </div>
+                    <input type="date" id="search-end-date" class="form-control" name="endDate"
+                           aria-describedby="inputGroup-sizing-sm" th:value="${param.endDate}">
+                </div>
+
+                <div class="input-group input-group-sm ml-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">カテゴリ</span>
+                    </div>
+                    <select id="search-category" class="custom-select custom-select-sm" name="category">
+                        <option value="-1">---</option>
+                        <option th:each="category:${categoryList}"
+                                th:text="${category.name}" th:value="${category.id}"></option>
+                    </select>
+                    <script type="text/javascript" th:inline="javascript">
+                        /*<![CDATA[*/
+                        var selectedCategory = /*[[ ${param.category} ]]*/ -1;
+                        console.log(selectedCategory);
+                        $('#search-category').val(selectedCategory);
+                        /*]]>*/
+                    </script>
+                </div>
+            </div>
+            <!--<div class="col-md-12">-->
+            <!--タグ-->
+            <!--</div>-->
+            <div class="col-md-12">
+                <div class="input-group mt-3">
+                    <button class="btn btn-primary btn-sm btn-block" type="submit">検索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row mt-5">
+        <table class="table table-background">
+            <thead>
+            <tr>
+                <td>日付</td>
+                <td>カテゴリ</td>
+                <td>金額</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="expense:${expenseList}" th:object="${expense}">
+                <td th:text="${#dates.format(expense.date,'yyyy年MM月dd日')}"></td>
+                <td th:text="*{category}"></td>
+                <td th:text="*{price}+'円'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
