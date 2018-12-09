@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +38,20 @@ public class ExpenseController {
     @GetMapping
     public String getExpenseList(
             Model model,
+            @RequestParam(value = "year", required = false) Optional<Integer> year,
+            @RequestParam(value = "month", required = false) Optional<Integer> month,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
             @RequestParam(value = "category", required = false) Optional<Long> optCategoryId,
-            @AuthenticationPrincipal Account account){
+            @AuthenticationPrincipal Account account) {
+        if (year.isPresent() && month.isPresent()) {
+            int y = DateUtil.parseYear(year);
+            int m = DateUtil.parseMonth(month);
+            java.sql.Date from = DateUtil.createDate(y, m);
+            java.sql.Date to = DateUtil.add(DateUtil.createDate(y, m + 1), Calendar.DATE, -1);
+            return String.format("redirect:/expense?startDate=%s&endDate=%s", DateUtil.toString(from), DateUtil.toString(to));
+
+        }
         long categoryId = optCategoryId.orElse(-1L);
         List<CategoryMaster> categoryList = categoryService.getAllCategory();
         List<ExpensePanelRow> expenseList = expenseService.searchExpense(

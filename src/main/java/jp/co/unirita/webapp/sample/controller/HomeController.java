@@ -60,7 +60,6 @@ public class HomeController {
                 expenseService.getExpenseSummaryOfCategory(account.getId(), year, month));
         model.addAttribute(ModelKey.BUDGET_CHART, budgetChart);
         model.addAttribute(ModelKey.EXPENSE_CHART, expenseChart);
-
         log.info("[index()] accountId: {}, year: {}, month: {}",account.getId(), year, month);
         return "index";
     }

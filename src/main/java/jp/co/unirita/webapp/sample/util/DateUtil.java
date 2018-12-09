@@ -1,6 +1,7 @@
 package jp.co.unirita.webapp.sample.util;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -45,5 +46,11 @@ public class DateUtil {
         cal.setTime(date);
         cal.add(field, value);
         return new Date(cal.getTimeInMillis());
+    }
+
+    public static String toString(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
     }
 }
