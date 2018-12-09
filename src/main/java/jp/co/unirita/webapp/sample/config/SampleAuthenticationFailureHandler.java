@@ -27,7 +27,6 @@ public class SampleAuthenticationFailureHandler implements AuthenticationFailure
         }
 
         // ログイン画面にリダイレクトする
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/"
-                + httpServletRequest.getParameter("identifier") + "/login?error=" + errorId);
+        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login?error=" + errorId);
     }
 }
